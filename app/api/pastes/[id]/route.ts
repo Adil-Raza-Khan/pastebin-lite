@@ -1,11 +1,14 @@
 import kv from "@/lib/kv";
 import { getNow } from "@/lib/time";
+import { NextRequest } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const key = `paste:${params.id}`;
+  const { id } = await context.params;
+  const key = `paste:${id}`;
+
   const paste = await kv.get<any>(key);
 
   if (!paste) {
@@ -22,7 +25,6 @@ export async function GET(
     return Response.json({ error: "View limit exceeded" }, { status: 404 });
   }
 
-  // increment views safely
   paste.views += 1;
   await kv.set(key, paste);
 
