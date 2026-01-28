@@ -13,6 +13,12 @@ export default function Home() {
       body: JSON.stringify({ content })
     });
 
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({ error: "Unknown error" }));
+      alert(error.error || "Failed to create paste");
+      return;
+    }
+
     const data = await res.json();
     setUrl(data.url);
   }

@@ -31,6 +31,12 @@ export async function POST(req: Request) {
   const id = nanoid(8);
   const now = Date.now();
 
+  const host = req.headers?.get("host");
+  const protocol = host && host.includes("localhost") ? "http" : "https";
+  const base =
+    process.env.NEXT_PUBLIC_BASE_URL ??
+    (host ? `${protocol}://${host}` : "http://localhost:3000");
+
   const paste = {
     id,
     content: body.content,
@@ -44,6 +50,6 @@ export async function POST(req: Request) {
 
   return Response.json({
     id,
-    url: `${process.env.NEXT_PUBLIC_BASE_URL}/p/${id}`
+    url: `${base}/p/${id}`
   });
 }

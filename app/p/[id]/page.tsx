@@ -2,11 +2,14 @@ import kv from "@/lib/kv";
 import { notFound } from "next/navigation";
 
 export default async function PastePage({
-  params
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const paste = await kv.get<any>(`paste:${params.id}`);
+  // ✅ unwrap params properly
+  const { id } = await params;
+
+  const paste = await kv.get<any>(`paste:${id}`);
 
   if (!paste) notFound();
 
