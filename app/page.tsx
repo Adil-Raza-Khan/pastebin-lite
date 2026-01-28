@@ -28,11 +28,18 @@ export default function Home() {
       <h1>Pastebin Lite</h1>
 
       <textarea
-        rows={10}
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        style={{ width: "100%" }}
-      />
+       rows={10}
+       value={content}
+       onChange={(e) => setContent(e.target.value)}
+       style={{
+       width: "100%",
+       border: "1px solid #999",
+       padding: "10px",
+       borderRadius: "6px",
+       fontFamily: "monospace"
+  }}
+/>
+
 
       <button onClick={submit}>Create Paste</button>
 
